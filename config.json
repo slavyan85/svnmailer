@@ -1,9 +1,19 @@
 {
+  "sender": {
+    "server_url": "example.com",
+    "login": "sender@example.com",
+    "password": "sender_password"
+  },
+
   "svn_root" : "svn://repo/name",
 
-  "sender_auth": {"sender@example.com": "sender_password"},
+  "depth": "200",
 
-  "developers": ["1.dev", "2.dev", "3.dev"],
+  "developers": [
+    "1.dev",
+    "2.dev",
+    "3.dev"
+  ],
 
   "watchers": {
     "slk@example.com": ["1.dev", "2.dev"],
