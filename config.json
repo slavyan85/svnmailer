@@ -1,0 +1,12 @@
+{
+  "svn_root" : "svn://repo/name",
+
+  "sender_auth": {"sender@example.com": "sender_password"},
+
+  "developers": ["1.dev", "2.dev", "3.dev"],
+
+  "watchers": {
+    "slk@example.com": ["1.dev", "2.dev"],
+    "pm@example.com": ["1.dev", "3.dev"]
+  }
+}
