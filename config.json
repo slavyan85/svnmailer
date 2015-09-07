@@ -1,4 +1,9 @@
 {
+  "tracker": {
+    "base_url": "http://jira/instance/browse",
+    "task_prefix": "PROJECT_NAME"
+  },
+
   "sender": {
     "server_url": "example.com",
     "login": "sender@example.com",
