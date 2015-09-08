@@ -23,8 +23,8 @@ class Mailer:
         self.depth = int(options['depth'])
         self.developers = options['developers']
         self.watchers = options['watchers']
-        today = datetime.datetime.today()
-        self.yesterday = today.replace(day=(today.day - 1))
+        self.today = datetime.datetime.today()
+        self.yesterday = self.today.replace(day=(self.today.day - 1))
         with open(options['sender']['template'], 'r') as tf:
             self.template = options['sender']['template'] = tf.read()
 
@@ -52,7 +52,7 @@ class Mailer:
 
     def send_email(self, target, message):
         msg_object = MIMEText(_text=message, _subtype='html', _charset='utf8')
-        msg_object['Subject'] = 'Commits at {}'.format(str(self.yesterday))
+        msg_object['Subject'] = 'Commits between {s} -- {e}'.format(s=str(self.yesterday), e=str(self.today))
         msg_object['From'] = '{s} <{a}>'.format(s=self.signature, a=self.smtp_login)
         msg_object['To'] = target
         try:
@@ -65,9 +65,10 @@ class Mailer:
     def render_template(self, authors, watcher):
         content_list = []
         for author in authors:
-            author_commits = '<br>'.join(['{r}\t:\t{m}'.format(r=commit, m=authors[author][commit]) for commit in authors[author] if author in self.watchers[watcher]])
+            author_commits = '{}<br>'.format(author)
+            author_commits += '<br>'.join(['{r}\t:\t{m}'.format(r=commit, m=authors[author][commit]) for commit in authors[author] if author in self.watchers[watcher]])
             content_list.append(author_commits)
-        content = '<hr>'.join(content_list)
+        content = '<hr>'.join([content_item for content_item in content_list if content_item])
         return self.template.format(content=content)
 
     def run(self):
