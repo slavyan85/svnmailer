@@ -42,7 +42,7 @@ class Mailer:
         log = [commit for commit in draft_log if commit.author in self.developers and datetime.datetime.fromtimestamp(commit.date) > self.yesterday]
         for commit in log:
             author = commit.author
-            revision = commit.revision.number
+            revision = str(commit.revision.number)
             message = commit.message
             if author not in result:
                 result.update({author: {revision: message}})
