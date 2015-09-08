@@ -58,7 +58,7 @@ class Mailer:
         try:
             smtp = smtplib.SMTP_SSL(host=self.smtp_url)
             smtp.login(self.smtp_login, self.smtp_pass)
-            smtp.sendmail(self.smtp_login, [target], msg_object)
+            smtp.sendmail(self.smtp_login, [target], msg_object.as_string())
         except Exception as ex:
             print('SMTP error.\n{}'.format(ex))
 
