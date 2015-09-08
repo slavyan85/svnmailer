@@ -7,7 +7,9 @@
   "sender": {
     "server_url": "example.com",
     "login": "sender@example.com",
-    "password": "sender_password"
+    "password": "sender_password",
+    "signature": "Commit notifier",
+    "template": "email_template.html"
   },
 
   "svn_root" : "svn://repo/name",
