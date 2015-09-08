@@ -7,6 +7,7 @@ import pysvn
 import json
 import smtplib
 import datetime
+import re
 from email.mime.text import MIMEText
 
 
@@ -28,6 +29,15 @@ class Mailer:
         with open(options['sender']['template'], 'r') as tf:
             self.template = options['sender']['template'] = tf.read()
 
+    def task_to_link(self, message):
+        reg = re.compile('{}-\d*'.format(self.tracker['task_prefix']))
+        reg_result = reg.findall(message)
+        if reg_result:
+            for match in reg_result:
+                message = message.replace(match, '<a href="{tu}/{m}">{m}</a>'.format(tu=self.tracker['base_url'],
+                                                                                     m=match))
+        return message
+
     def commits_by_authors(self):
         """
         :return: dict(author=dict(revision=message))
@@ -43,7 +53,7 @@ class Mailer:
         for commit in log:
             author = commit.author
             revision = str(commit.revision.number)
-            message = commit.message
+            message = self.task_to_link(commit.message)
             if author not in result:
                 result.update({author: {revision: message}})
             else:
