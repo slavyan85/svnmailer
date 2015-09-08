@@ -62,15 +62,19 @@ class Mailer:
         except Exception as ex:
             print('SMTP error.\n{}'.format(ex))
 
-    def run(self):
+    def render_template(self, authors, watcher):
         content_list = []
-        authors = self.commits_by_authors()
         for author in authors:
-            author_commits = '<br>'.join(['{r}\t:\t{m}'.format(r=commit['revision'], m=commit['message']) for commit in authors[author]])
+            author_commits = '<br>'.join(['{r}\t:\t{m}'.format(r=commit, m=authors[author][commit]) for commit in authors[author] if author in self.watchers[watcher]])
             content_list.append(author_commits)
         content = '<hr>'.join(content_list)
-        print(self.template.format(content=content))
+        return self.template.format(content=content)
 
+    def run(self):
+        authors = self.commits_by_authors()
+        for watcher in self.watchers:
+            email_body = self.render_template(authors, watcher)
+            self.send_email(watcher, email_body)
 
 
 if __name__ == '__main__':
