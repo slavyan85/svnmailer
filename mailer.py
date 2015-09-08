@@ -52,7 +52,9 @@ class Mailer:
 
     def send_email(self, target, message):
         msg_object = MIMEText(_text=message, _subtype='html', _charset='utf8')
-        msg_object['Subject'] = 'Commits between {s} -- {e}'.format(s=str(self.yesterday), e=str(self.today))
+        start_time = self.yesterday.strftime('%d-%m-%y %H:%M')
+        end_time = self.yesterday.strftime('%d-%m-%Y %H:%M')
+        msg_object['Subject'] = 'Commits between {s} -- {e}'.format(s=start_time, e=end_time)
         msg_object['From'] = '{s} <{a}>'.format(s=self.signature, a=self.smtp_login)
         msg_object['To'] = target
         try:
