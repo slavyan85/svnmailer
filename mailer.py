@@ -18,7 +18,7 @@ class Mailer:
         self.smtp_url = options['sender']['server_url']
         self.smtp_login = options['sender']['login']
         self.smtp_pass = options['sender']['password']
-        self.signature = options['signature']
+        self.signature = options['sender']['signature']
         self.svn_root = options['svn_root']
         self.depth = int(options['depth'])
         self.developers = options['developers']
