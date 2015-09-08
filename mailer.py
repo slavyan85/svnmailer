@@ -65,7 +65,7 @@ class Mailer:
     def render_template(self, authors, watcher):
         content_list = []
         for author in authors:
-            author_commits = '{}<br>'.format(author)
+            author_commits = '{}<br>'.format(author) if author in self.watchers[watcher] else ''
             author_commits += '<br>'.join(['{r}\t:\t{m}'.format(r=commit, m=authors[author][commit]) for commit in authors[author] if author in self.watchers[watcher]])
             content_list.append(author_commits)
         content = '<hr>'.join([content_item for content_item in content_list if content_item])
