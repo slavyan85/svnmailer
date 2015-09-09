@@ -42,8 +42,13 @@ class Mailer:
         """
         :return: dict(author=dict(revision=message))
         """
+        def ssl_server_trust_prompt(trust_dict):
+            return True, trust_dict['failures'], True
+
         result = {}
         svn = pysvn.Client()
+        if self.svn_root.startswith('https'):
+            svn.callback_ssl_server_trust_prompt = ssl_server_trust_prompt
         start_revision = svn.log(self.svn_root, limit=1, discover_changed_paths=False)[0].revision.number
         end_revision = start_revision - self.depth
         draft_log = svn.log(self.svn_root,
