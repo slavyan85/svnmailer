@@ -14,7 +14,9 @@
 
   "svn_root" : "svn://repo/name",
 
-  "depth": "200",
+  "commits": "200",
+
+  "days": "1",
 
   "developers": [
     "1.dev",
